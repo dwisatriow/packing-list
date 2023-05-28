@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   createItem,
   filterItems,
@@ -14,25 +14,34 @@ import NewItem from './new-item';
 const Application = () => {
   const [items, setItems] = useState(getInitialItems());
 
-  const add = (name) => {
-    const item = createItem(name);
-    setItems([...items, item]);
-  };
+  const add = useCallback(
+    (name) => {
+      const item = createItem(name);
+      setItems([...items, item]);
+    },
+    [items],
+  );
 
-  const update = (id, updates) => {
-    setItems(updateItem(items, id, updates));
-  };
+  const update = useCallback(
+    (id, updates) => {
+      setItems(updateItem(items, id, updates));
+    },
+    [items],
+  );
 
-  const remove = (id) => {
-    setItems(removeItem(items, id));
-  };
+  const remove = useCallback(
+    (id) => {
+      setItems(removeItem(items, id));
+    },
+    [items],
+  );
 
   const unpackedItems = filterItems(items, { packed: false });
   const packedItems = filterItems(items, { packed: true });
 
-  const markAllAsUnpacked = () => {
+  const markAllAsUnpacked = useCallback(() => {
     return setItems(items.map((item) => ({ ...item, packed: false })));
-  };
+  }, [items]);
 
   return (
     <main className="mx-auto flex flex-col gap-8 p-8 lg:max-w-4xl">
