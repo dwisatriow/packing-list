@@ -3,13 +3,13 @@ import { filterItems } from '../lib/items';
 import { toKebabCase } from '../lib/kebab-case';
 import Item from './item';
 
-const EmptyState = ({ id, items, filteredItems }) => (
+const EmptyState = ({ id }) => (
   <p id={id} className="text-primary-400">
     (No items.)
   </p>
 );
 
-const ItemList = ({ title = 'Items', items, dispatch }) => {
+const ItemList = ({ title = 'Items', items }) => {
   const [filter, setFilter] = useState('');
   const id = toKebabCase(title);
 
@@ -31,7 +31,7 @@ const ItemList = ({ title = 'Items', items, dispatch }) => {
       </header>
       <ul className="flex flex-col gap-2">
         {filteredItems.map((item) => (
-          <Item key={item.id} item={item} dispatch={dispatch} />
+          <Item key={item.id} item={item} />
         ))}
       </ul>
       {isEmpty && (
